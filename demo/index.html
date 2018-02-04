@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <script src="node_modules/jquery/jquery.js"></script>
+    <script src="node_modules/bootstrap/dist/js/bootstrap.js"></script>
+</head>
+<body>
+  <div class="container">
+     <div class="row">
+         <form>
+             <div class="form-group">
+                 <label for="idCard">身份证号码</label>
+                 <input type="text" class="form-control" id="idCard" placeholder="身份证号码"/>
+             </div>
+             <div class="form-group">
+                 <label for="fullName">姓名</label>
+                 <input type="text" class="form-control" id="fullName" placeholder="姓名"/>
+             </div>
+             <div class="form-group">
+                 <label for="address">地址</label>
+                 <input type="text" class="form-control" id="address" placeholder="地址"/>
+             </div>
+             <div class="form-group">
+                 <label for="mac">MAC地址</label>
+                 <input type="text" class="form-control" id="mac" placeholder="MAC"/>
+             </div>
+             <input id="btn_readCard" type="button" class="btn btn-default" value="Submit"/>
+         </form>
+     </div>
+  </div>
+  <script type="text/javascript">
+      $(function () {
+          $("#btn_readCard").click(function () {
+                var obj=new easyhrip();
+                obj.readCard();
+          });
+      })
+  </script>
+</body>
+</html>
