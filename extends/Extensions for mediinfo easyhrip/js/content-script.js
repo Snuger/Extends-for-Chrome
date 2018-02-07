@@ -20,7 +20,7 @@ function injectCustomJs(jsPath)
 
  window.addEventListener("message",
     function (event) {
-        var laserExtensionId = "fmdanklbpanibbbelfgoedkgiaaoclme";
+        var laserExtensionId = "hbmnbacgopboghnhofehjoapibhcehkb";
      chrome.runtime.sendMessage(laserExtensionId,{opera:event.data.type},
          function(response) {
             if(response){

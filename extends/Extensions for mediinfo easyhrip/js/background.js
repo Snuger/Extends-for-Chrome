@@ -58,7 +58,7 @@ chrome.runtime.onMessage.addListener(
                   sendResponse({result:true,cardInfo:{id:"41132719881010497X",name:"马庆俭",addrss:"浙江省杭州市" }});
                   console.log("Received " + response);
               });*/
-               var msg={opera:"readCard"};
+               var msg={text:"readCard"};
                sendNativeMsg(msg);
                break;
        }
@@ -67,7 +67,7 @@ chrome.runtime.onMessage.addListener(
 
 function connectNativeApp() {
     bSelfQuit = false;
-    var hostName = "com.mediinfo.NativeMegDemo";
+    var hostName = "com.mediinfo.easyhrip";
     port = chrome.runtime.connectNative(hostName);
 
     if (port != null)
