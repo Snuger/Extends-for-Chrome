@@ -6,7 +6,6 @@
 var port = null;
 var bException=false;
 var bSelfQuit = false;
-
 //chrome与本地程序通信的桥梁，根据该名称进行配置项的寻找。windows下在注册表HKEY_CURRENT_USER\Software\Google\Chrome\NativeMessagingHosts内寻找，
 //linux下在目录/etc/opt/chrome/native-messaging-hosts/寻找该名称的json文件（本例子为com.ctrip.ops.mysql.callapp.json）
 
@@ -18,17 +17,22 @@ function onDisconnected()
         port = null;
         bException = true;
     }
-
 }
 
 function onNativeMessage(message) {
- console.log(message);
- /*if(message){
-     if(message.type=="back"){
-         sendResponse({result:true,cardInfo:{id:"41132719881010497X",name:"马庆俭",addrss:"浙江省杭州市" }});
-     }
- }*/
-
+    chrome.windows.getCurrent(function(wnd){
+        chrome.tabs.getAllInWindow(wnd.id, function(tabs){
+            for(var i=0; i < tabs.length; i++)
+            {
+                 if(tabs[i].active)
+                 {
+                  chrome.tabs.sendRequest(tabs[i].id,message,function (response) {
+                      console.log(response);
+                  });
+               }
+            }
+        });
+    });
 }
 
 function sendNativeMsg(msg) {
@@ -41,29 +45,10 @@ function sendNativeMsg(msg) {
     }
 }
 
-
-
 chrome.runtime.onMessage.addListener(
     function(request, sender, sendResponse) {
-        switch(request.opera){
-              case "readCard":
-             //sendResponse({result:true,cardInfo:{id:"41132719881010497X",name:"马庆俭",addrss:"浙江省杭州市" }});
-
-             /* connectToNativeHost();
-                IdReadCrd(request);
-                sendResponse({result:true,cardInfo:{id:"41132719881010497X",name:"马庆俭",addrss:"浙江省杭州市" }});
-                chrome.runtime.sendNativeMessage(nativeHostName,
-                   { opeara: "readCard" },
-                   function(response) {
-                  sendResponse({result:true,cardInfo:{id:"41132719881010497X",name:"马庆俭",addrss:"浙江省杭州市" }});
-                  console.log("Received " + response);
-              });*/
-               var msg={text:"readCard"};
-               sendNativeMsg(msg);
-               break;
-       }
+        sendNativeMsg(request);
    });
-
 
 function connectNativeApp() {
     bSelfQuit = false;
@@ -79,7 +64,6 @@ function connectNativeApp() {
     else
     {
         bException = true;
-        //SetToolbarExceptionStatus();
         console.log("connectNativeApp failed!");
     }
 }

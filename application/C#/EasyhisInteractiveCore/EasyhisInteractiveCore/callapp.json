@@ -1,0 +1,9 @@
+{
+  "name": "com.mediinfo.easyhrip",
+  "description": "com.mediinfo.easyhrip",
+  "path": "E:\\Postgraduate\\Chrome\\Extensions\\extends-for-chrome\\application\\C#\\EasyhisInteractiveCore\\EasyhisInteractiveCore\\bin\\Debug\\EasyhisInteractiveCore.exe",
+  "type": "stdio",
+  "allowed_origins": [
+    "chrome-extension://akgbmleopjmipmphdcppjiohldkgnfin/"
+  ]
+}

@@ -1,7 +1,6 @@
 document.addEventListener("DOMContentLoaded",function () {
     injectCustomJs(); //注册脚本,让页面可以访问
 });
-
 // 向页面注入JS
 function injectCustomJs(jsPath)
 {
@@ -18,28 +17,33 @@ function injectCustomJs(jsPath)
     document.head.appendChild(temp);
 };
 
+//接收来自台的请求消息并转发至后端back-ground.js
  window.addEventListener("message",
     function (event) {
-        var laserExtensionId = "hbmnbacgopboghnhofehjoapibhcehkb";
-     chrome.runtime.sendMessage(laserExtensionId,{opera:event.data.type},
+     var laserExtensionId = "akgbmleopjmipmphdcppjiohldkgnfin";
+     chrome.runtime.sendMessage(laserExtensionId,event.data,
          function(response) {
-            if(response){
-                if(response.result){
-                    switch(event.data.type){
-                        case "readCard":
-                            document.getElementById("idCard").value= response.cardInfo.id;
-                            document.getElementById("fullName").value=response.cardInfo.name;
-                            document.getElementById("address").value=response.cardInfo.addrss;
-                            break;
-                        default:
-                            return;
-                    }
-                }
-             }
      });
  } , false);
 
-chrome.runtime.onMessage.addListener(function(request, sender, sendResponse)
-{    sendResponse(JSON.stringify(request));
+//接收后端back-groud.js调用的应用程序返回消息
+chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
+    console.log(request);
+    if(request){
+        if(request.Result.Code=="0"){
+            switch(request.Result.TradeType){
+                case "ReadCard":
+                        document.getElementById("Name").value=request.Name;
+                        document.getElementById("CardId").value=request.CardId;
+                        document.getElementById("address").value=request.Address;
+                        document.getElementById("Birthday").value=request.Birthday;
+                    break;
+            }
+        }else{
+            alert("读卡失败,失败原因:"+request.Result.Msg);
+        }
+    }
+   // window.postMessage(request,'*');
 });
+
 

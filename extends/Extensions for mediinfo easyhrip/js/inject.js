@@ -6,9 +6,9 @@ function easyhrip() {
     function readCard() {
         window.postMessage({type:'readCard'},'*');
     };
+    //复杂交易,传递JSON对象
+    this.ComplexTranscction=ComplexTranscction;
+    function ComplexTranscction(obj) {
+         window.postMessage(obj,'*');
+    }
 }
-/*
-window.addEventListener("message",
-    function (event) {
-        console.log("inject.js接收到返回消息:"+JSON.stringify(event.data));
-    } , false);*/

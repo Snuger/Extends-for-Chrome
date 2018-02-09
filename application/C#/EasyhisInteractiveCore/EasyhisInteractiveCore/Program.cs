@@ -35,11 +35,20 @@ namespace EasyhisInteractiveCore
         }
         public static string ProcessMessage(JObject data)
         {
-            var message = data["text"].Value<string>();
+            var message = data["Code"].Value<string>();
             switch (message)
             {
-                case "test":
-                    return "testing!";
+                case "ReadCard":
+                    return JsonConvert.SerializeObject(new ReadCradResult()
+                    {
+                        Name = "李祁",
+                        Sex="男",
+                        Birthday = "1997-09-06",
+                        CardId = "41132709848987",
+                        Address = "浙江省杭州市西湖区"
+                    }).ToString();                  
+                case "ReadMac":
+                    return "01-09-MD-0A-CC";
                 case "exit":
                     return "exit";
                 default:
@@ -70,8 +79,8 @@ namespace EasyhisInteractiveCore
 
         public static void Write(JToken data)
         {
-            var json = new JObject();
-            json["data"] = data;
+            var json = JObject.Parse(data.ToString());
+            // json["data"] = data;           
 
             var bytes = System.Text.Encoding.UTF8.GetBytes(json.ToString(Formatting.None));
 
